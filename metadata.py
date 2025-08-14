@@ -102,7 +102,7 @@ def edit_metadata_gui(mp3_path: str) -> None:
             messagebox.showerror("Error", str(e))
 
     frm.grid_columnconfigure(1, weight=1)
-    ttk.Button(frm, text="Choose Cover...", command=choose_cover).grid(row=3, column=0, pady=8, sticky='w')
+    # ttk.Button(frm, text="Choose Cover...", command=choose_cover).grid(row=3, column=0, pady=8, sticky='w')
     ttk.Label(frm, textvariable=cover_path, foreground="#666").grid(row=3, column=1, sticky='w')
     ttk.Button(frm, text="Clear All", command=do_clear).grid(row=4, column=0, pady=8, sticky='w')
     ttk.Button(frm, text="Save", command=do_save).grid(row=4, column=1, pady=8, sticky='e')

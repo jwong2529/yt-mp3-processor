@@ -1,5 +1,6 @@
 
 import os
+from tkinter import Tk, filedialog
 from config import get_save_dir, project_tmp_dir
 from utils import safe_filename, input_float, confirm
 from search import is_url, search_youtube, select_result
@@ -94,15 +95,20 @@ def maybe_cover(mp3_path: str, url: str) -> None:
             print("Frame extraction failed:", e)
 
     elif mode == "2":
-        p = input("Path to image: ").strip()
-        if os.path.isfile(p):
+        # Open file picker for image
+        Tk().withdraw()  # Hide root window
+        p = filedialog.askopenfilename(
+            title="Select Cover Image",
+            filetypes=[("Image Files", "*.jpg *.jpeg *.png")]
+        )
+        if p and os.path.isfile(p):
             try:
                 set_cover_from_image(mp3_path, p)
                 print("Cover set from file.")
             except Exception as e:
                 print("Failed to set cover:", e)
         else:
-            print("File not found; skipping cover.")
+            print("No file selected; skipping cover.")
 
     elif mode == "3":
         try:
