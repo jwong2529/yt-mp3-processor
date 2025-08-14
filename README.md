@@ -36,9 +36,16 @@ Provides a more streamlined process for importing Youtube audio to Spotify local
    - Create that folder if it doesn't exist.
 
 5. **Run**
+    
+    For full process, starting with downloading YouTube video:
    ```bash
    python main.py
    ```
+   
+    For editing metadata and cover art of existing .mp3 file:
+    ```bash
+   python edit_existing.py
+    ```
 
 ## Features & Flow
 - **Search**: Enter a YouTube URL _or_ keywords; for keywords it shows a selectable list (title, channel, duration).
