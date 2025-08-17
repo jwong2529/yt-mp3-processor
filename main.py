@@ -1,5 +1,6 @@
 
 import os
+import shutil
 from tkinter import Tk, filedialog
 from config import get_save_dir, project_tmp_dir
 from utils import safe_filename, input_float, confirm
@@ -154,8 +155,6 @@ def main():
 
         final_rename_and_save(mp3_path)
         print("\nDone.")
-        import os
-        import shutil
 
     finally:
         if os.path.isdir(tmp_dir):
