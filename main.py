@@ -129,8 +129,9 @@ def maybe_cover(mp3_path: str, url: str) -> None:
 def final_rename_and_save(mp3_path: str) -> str:
     out_dir = get_save_dir()
     default_name = os.path.basename(mp3_path)
+    print("Example of naming convention: John Mayer - Human Nature (Michael Jackson Memorial 2009).mp3\n")
     new_name = input(f"Rename file (blank to keep '{default_name}'): ").strip()
-    final_name = safe_filename(new_name) if new_name else default_name
+    final_name = safe_filename(new_name) + '.mp3' if new_name else default_name
     final_path = os.path.join(out_dir, final_name)
     os.makedirs(out_dir, exist_ok=True)
     # If same path, just keep it; else move/copy

@@ -47,12 +47,15 @@ def _set_apic(mp3_path: str, jpeg_bytes: bytes) -> None:
 # ---------------- CLI helpers ----------------
 
 def edit_metadata_cli(mp3_path: str) -> None:
-    title = input("Title (blank=skip): ").strip() or None
-    artist = input("Artist (blank=skip): ").strip() or None
-    album = input("Album (blank=skip): ").strip() or None
+    # title = input("Title (blank=skip): ").strip() or None
+    # artist = input("Artist (blank=skip): ").strip() or None
+    # album = input("Album (blank=skip): ").strip() or None
     clear_first = input("Clear all existing metadata first? [y/N]: ").strip().lower() in {'y','yes'}
     if clear_first:
         clear_all_metadata(mp3_path)
+    title = input("Title (blank=skip): ").strip() or None
+    artist = input("Artist (blank=skip): ").strip() or None
+    album = input("Album (blank=skip): ").strip() or None
     set_basic_metadata(mp3_path, title, artist, album)
 
 # ---------------- GUI ----------------
