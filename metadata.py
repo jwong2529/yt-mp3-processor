@@ -6,6 +6,7 @@ from PIL import Image
 import io
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
+from utils import safe_input
 
 def clear_all_metadata(mp3_path: str) -> None:
     try:
@@ -47,23 +48,23 @@ def _set_apic(mp3_path: str, jpeg_bytes: bytes) -> None:
 # ---------------- CLI helpers ----------------
 
 def edit_metadata_cli(mp3_path: str) -> None:
-    # title = input("Title (blank=skip): ").strip() or None
-    # artist = input("Artist (blank=skip): ").strip() or None
-    # album = input("Album (blank=skip): ").strip() or None
-    clear_first = input("Clear all existing metadata first? [y/N]: ").strip().lower() in {'y','yes'}
-    if clear_first:
-        clear_all_metadata(mp3_path)
-    title = input("Title (blank=skip): ").strip() or None
-    artist = input("Artist (blank=skip): ").strip() or None
-    album = input("Album (blank=skip): ").strip() or None
+    clear_all_metadata(mp3_path)
+    title = safe_input("Title (blank=skip): ").strip() or None
+    artist = safe_input("Artist (blank=skip): ").strip() or None
+    album = safe_input("Album (blank=skip): ").strip() or None
     set_basic_metadata(mp3_path, title, artist, album)
 
 # ---------------- GUI ----------------
 
-def edit_metadata_gui(mp3_path: str) -> None:
+def edit_metadata_gui(mp3_path: str) -> bool:
     root = tk.Tk()
     root.title("Edit MP3 Metadata")
     root.geometry("360x240")
+
+    # Force the window to the front
+    root.lift()
+    root.attributes('-topmost', True)
+    root.after_idle(root.attributes, '-topmost', False)
 
     vars_ = {k: tk.StringVar() for k in ('title','artist','album')}
 
@@ -79,6 +80,7 @@ def edit_metadata_gui(mp3_path: str) -> None:
     add_row("Album", 'album', 2)
 
     cover_path = tk.StringVar()
+    cover_was_set = False
 
     def choose_cover():
         path = filedialog.askopenfilename(title="Choose cover image", filetypes=[("Images", "*.jpg *.jpeg *.png")])
@@ -88,11 +90,16 @@ def edit_metadata_gui(mp3_path: str) -> None:
     def do_clear():
         try:
             clear_all_metadata(mp3_path)
-            messagebox.showinfo("OK", "Cleared all metadata")
+
+            # Clear visible GUI fields
+            for key in vars_:
+                vars_[key].set("")
+            cover_path.set("")
         except Exception as e:
             messagebox.showerror("Error", str(e))
 
     def do_save():
+        nonlocal cover_was_set
         try:
             t = vars_['title'].get().strip() or None
             a = vars_['artist'].get().strip() or None
@@ -100,14 +107,19 @@ def edit_metadata_gui(mp3_path: str) -> None:
             set_basic_metadata(mp3_path, t, a, al)
             if cover_path.get():
                 set_cover_from_image(mp3_path, cover_path.get())
-            messagebox.showinfo("Saved", "Metadata saved.")
+                cover_was_set = True
+            # Auto-close GUI window
+            root.quit()
+            root.destroy()
+            root.update()
         except Exception as e:
             messagebox.showerror("Error", str(e))
 
     frm.grid_columnconfigure(1, weight=1)
-    # ttk.Button(frm, text="Choose Cover...", command=choose_cover).grid(row=3, column=0, pady=8, sticky='w')
+    ttk.Button(frm, text="Choose Cover...", command=choose_cover).grid(row=3, column=0, pady=8, sticky='w')
     ttk.Label(frm, textvariable=cover_path, foreground="#666").grid(row=3, column=1, sticky='w')
     ttk.Button(frm, text="Clear All", command=do_clear).grid(row=4, column=0, pady=8, sticky='w')
     ttk.Button(frm, text="Save", command=do_save).grid(row=4, column=1, pady=8, sticky='e')
 
     root.mainloop()
+    return cover_was_set

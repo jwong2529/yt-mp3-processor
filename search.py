@@ -1,6 +1,6 @@
-
 from typing import List, Dict, Optional
 from youtubesearchpython import VideosSearch
+from utils import safe_input
 
 def is_url(s: str) -> bool:
     return s.startswith("http://") or s.startswith("https://")
@@ -29,7 +29,7 @@ def select_result(results: List[Dict]) -> Optional[Dict]:
     for i, r in enumerate(results, 1):
         print(f"[{i}] {r['title']}  | {r['channel']}  | {r['duration']}  | {r['viewCount']}")
     while True:
-        s = input("Pick a number (or blank to cancel): ").strip()
+        s = safe_input("Pick a number (or blank to cancel): ").strip()
         if not s:
             return None
         try:

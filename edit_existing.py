@@ -1,7 +1,7 @@
 import os
 from tkinter import Tk, filedialog
 from config import get_save_dir
-from utils import safe_filename, confirm
+from utils import safe_filename, confirm, safe_input
 from metadata import edit_metadata_cli, edit_metadata_gui, clear_all_metadata, set_cover_from_image
 
 def pick_existing_mp3():
@@ -14,7 +14,7 @@ def pick_existing_mp3():
     print("\nAvailable MP3 files:")
     for i, f in enumerate(files, start=1):
         print(f"[{i}] {f}")
-    choice = input("Select a file number: ").strip()
+    choice = safe_input("Select a file number: ").strip()
     if not choice.isdigit() or not (1 <= int(choice) <= len(files)):
         print("Invalid choice.")
         raise SystemExit
@@ -25,7 +25,7 @@ def maybe_metadata(mp3_path):
         return
     if confirm("Clear all existing tags first? "):
         clear_all_metadata(mp3_path)
-    mode = input("Metadata mode: [1] CLI  [2] GUI  (Enter 1/2): ").strip() or "1"
+    mode = safe_input("Metadata mode: [1] CLI  [2] GUI  (Enter 1/2): ").strip() or "1"
     if mode == "1":
         edit_metadata_cli(mp3_path)
     else:
@@ -54,7 +54,7 @@ def maybe_cover(mp3_path):
 def maybe_rename(mp3_path):
     save_dir = get_save_dir()
     default_name = os.path.basename(mp3_path)
-    new_name = input(f"Rename file (blank to keep '{default_name}'): ").strip()
+    new_name = safe_input(f"Rename file (blank to keep '{default_name}'): ").strip()
     if not new_name:
         return
     final_name = safe_filename(new_name)
