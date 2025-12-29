@@ -13,13 +13,13 @@ Use case:
 Provides a more streamlined process for importing Youtube audio to Spotify local files.
 
 ## Quick Start (macOS / Linux)
-1. **Install FFmpeg** (required by `yt_dlp`/`pydub` for conversions and frame extraction)
-   - macOS (Homebrew): `brew install ffmpeg`
+1. **Install FFmpeg and Tkinter** (required by `yt_dlp`/`pydub` for conversions and frame extraction)
+   - macOS (Homebrew): `brew install ffmpeg python-tk@3.12`
    - Ubuntu/Debian: `sudo apt-get update && sudo apt-get install -y ffmpeg`
 
 2. **Create and activate a virtualenv (recommended)**
    ```bash
-   python3 -m venv .venv
+   python3.12 -m venv .venv
    source .venv/bin/activate
    ```
 
