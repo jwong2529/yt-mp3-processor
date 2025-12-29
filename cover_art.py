@@ -49,7 +49,7 @@ def pick_frame_interactive(video_url: str, tmp_dir: str) -> str:
     total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
     frame_idx = 0
 
-    print("Use LEFT/RIGHT arrows to scrub, SPACE to save frame, Q to quit.")
+    print("Use arrow keys to scrub, [SPACE] to save frame, [Q] to quit.")
 
     while True:
         cap.set(cv2.CAP_PROP_POS_FRAMES, frame_idx)
@@ -60,7 +60,7 @@ def pick_frame_interactive(video_url: str, tmp_dir: str) -> str:
         display_frame = frame.copy()
         cv2.putText(display_frame, f"{frame_idx/fps:.2f} s", (10, 30),
                     cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
-        cv2.imshow("Pick Cover Frame", display_frame)
+        cv2.imshow("Arrow keys to scrub -- [SPACE] to save -- [Q] to quit", display_frame)
 
         key = cv2.waitKey(0) & 0xFF
         if key == ord('q'):
