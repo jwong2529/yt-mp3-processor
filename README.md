@@ -52,7 +52,7 @@ Provides a more streamlined process for importing Youtube audio to Spotify local
 - **Download**: Best audio stream, converts to `.mp3` with `yt_dlp` + FFmpeg.
 - **Trim (optional)**:
   - Manual: enter start/end in seconds (e.g., `5.5` to `182.3`).
-  - Interactive: pop-up waveform window; press [SPACE] and arrow keys to select start/end times and close the window to apply.
+  - Interactive: pop-up waveform window; press [SPACE] and use mouse/arrow keys to select start/end times and close the window to apply.
 - **Metadata**:
   - CLI mode: prompts for Title/Artist/Album/etc., or choose to clear all.
   - GUI mode: Tkinter form; save to apply.
