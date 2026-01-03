@@ -19,7 +19,7 @@ Provides a more streamlined process for importing Youtube audio to Spotify local
 
 2. **Create and activate a virtualenv (recommended)**
    ```bash
-   python3.12 -m venv .venv
+   /Library/Frameworks/Python.framework/Versions/3.12/bin/python3 -m venv .venv
    source .venv/bin/activate
    ```
 
